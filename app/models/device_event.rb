@@ -1,0 +1,2 @@
+class DeviceEvent < ApplicationRecord
+end
