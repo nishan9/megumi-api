@@ -20,8 +20,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_11_221543) do
     t.datetime "received_at"
     t.string "device_uuid"
     t.jsonb "metadata"
-    t.boolean "notification_sent"
-    t.boolean "is_deleted"
+    t.boolean "notification_sent", default: false
+    t.boolean "is_deleted", default: false
     t.integer "category"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
