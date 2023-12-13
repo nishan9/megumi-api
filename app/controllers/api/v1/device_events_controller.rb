@@ -8,6 +8,10 @@ class Api::V1::DeviceEventsController < ApplicationController
         end 
     end
 
+    def update_notification
+
+    end
+
     def device_event_params
         params.require(:device_event).permit(:category, :recorded_at)
     end
