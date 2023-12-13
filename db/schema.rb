@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_11_221543) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_12_163338) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "device_events", force: :cascade do |t|
-    t.uuid "uuid"
+  create_table "device_events", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "recorded_at"
     t.datetime "received_at"
     t.string "device_uuid"
     t.jsonb "metadata"
-    t.boolean "notification_sent", default: false
-    t.boolean "is_deleted", default: false
+    t.boolean "notification_sent"
+    t.boolean "is_deleted"
     t.integer "category"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

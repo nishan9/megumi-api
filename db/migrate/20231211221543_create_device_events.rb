@@ -1,7 +1,6 @@
 class CreateDeviceEvents < ActiveRecord::Migration[7.1]
   def change
-    create_table :device_events do |t|
-      t.uuid :uuid
+    create_table :device_events, id: :uuid do |t|
       t.datetime :recorded_at
       t.datetime :received_at
       t.string :device_uuid
