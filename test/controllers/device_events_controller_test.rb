@@ -58,5 +58,25 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
     end
 
   end
+
+  class DeviceEventsGetTest < DeviceEventsControllerTest
+
+    test "get device event" do
+      device_event = DeviceEvent.create(category:4, recorded_at: Date.yesterday)
+      get "/api/v1/device_events/#{device_event.uuid}"
+      assert_response :ok
+      assert_equal 4, device_event['category']
+      assert_equal device_event.uuid, device_event['uuid']
+      assert_equal false, device_event['is_deleted']
+      assert_equal false, device_event['notification_sent']
+    end
+
+    test "get non existent event" do
+      non_existent_event_uuid = 47382
+      get "/api/v1/device_events/#{non_existent_event_uuid}"
+      assert_response :not_found
+    end
+
+  end
   
 end
