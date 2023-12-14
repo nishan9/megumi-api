@@ -1,4 +1,10 @@
 class Api::V1::DeviceEventsController < ApplicationController
+
+    def index
+        device_events = DeviceEvent.all
+        render json: device_events, status: :ok
+    end
+
     def create 
         device_event = DeviceEvent.new(device_event_params)
         if device_event.save
