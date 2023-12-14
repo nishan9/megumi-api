@@ -5,11 +5,11 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
   class DeviceEventsCreateTest < DeviceEventsControllerTest
 
     test "create valid device event with valid parameters" do
-      post '/api/v1/device_events', params: { device_event: { category: 1, recorded_at: Date.current } }
+      post '/api/v1/device_events', params: { device_event: { category: 2, recorded_at: Date.current } }
       assert_response :ok
       device_event = JSON.parse(response.body)
       assert_not_nil device_event['uuid']
-      assert_equal 1, device_event['category']
+      assert_equal 2, device_event['category']
     end
   
     test "create invalid device event with category parameter missing" do
