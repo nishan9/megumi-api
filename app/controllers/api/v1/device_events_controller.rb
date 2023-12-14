@@ -1,8 +1,8 @@
 class Api::V1::DeviceEventsController < ApplicationController
 
     def index
-        device_events = DeviceEvent.all
-        render json: device_events, status: :ok
+        @device_events = DeviceEvent.filter_by_params(params)
+        render json: @device_events, status: :ok
     end
 
     def create 

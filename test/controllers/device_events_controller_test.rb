@@ -133,7 +133,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
 
   class DeviceEventsGetAllWithFiltersTest < DeviceEventsControllerTest
 
-    test "get only device events with notification_sent to true" do
+    test "get only device events with is_deleted to true" do
       DeviceEvent.delete_all
       device_event = DeviceEvent.create(category: 6, recorded_at: Date.today)
       delete "/api/v1/device_events/#{device_event.uuid}"
@@ -143,7 +143,20 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
 
       assert_response :ok
       deleted_device_events = JSON.parse(response.body)
-      assert_equal 2, deleted_device_events.length
+      assert_equal 1, deleted_device_events.length
+    end
+
+    test "get only device events with notification_sent to true" do
+      DeviceEvent.delete_all
+      device_event = DeviceEvent.create(category: 6, recorded_at: Date.today)
+      patch "/api/v1/device_events/#{device_event.uuid}/update-notification"
+
+      device_event_2 = DeviceEvent.create(category: 7, recorded_at: Date.yesterday)
+      get "/api/v1/device_events?notification_sent=true" 
+
+      assert_response :ok
+      deleted_device_events = JSON.parse(response.body)
+      assert_equal 1, deleted_device_events.length
     end
 
   end
