@@ -37,6 +37,20 @@ class Api::V1::DeviceEventsController < ApplicationController
         end
     end
 
+    def destroy
+        @device_event = DeviceEvent.find(params[:id])
+    
+        if @device_event.is_deleted?
+            render json: { error: "This event has already been deleted" }, status: :unprocessable_entity
+        else
+            if @device_event.update(is_deleted: true)
+                render json: @device_event, status: :ok
+            else
+                render json: { error: "Failed to delete event" }, status: :bad_request
+            end
+        end
+    end
+
     def device_event_params
         params.require(:device_event).permit(:category, :recorded_at)
     end

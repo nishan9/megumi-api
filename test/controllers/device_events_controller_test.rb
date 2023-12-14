@@ -32,7 +32,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
 
   class DeviceEventsUpdateNotificationTest < DeviceEventsControllerTest
 
-    test "update notification_sent flag to true when it set to false" do
+    test "update notification_sent attribute to true when it set to false" do
       device_event = DeviceEvent.create(category:1, recorded_at: Date.today)
       patch "/api/v1/device_events/#{device_event.uuid}/update-notification"
       assert_response :ok
@@ -46,7 +46,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
       assert_response :not_found
     end
 
-    test "update notification_sent flag to true when it set to false 2" do
+    test "error when update notification_sent attribute is already true" do
       device_event = DeviceEvent.create(category:3, recorded_at: Date.yesterday)
       patch "/api/v1/device_events/#{device_event.uuid}/update-notification"
       assert_response :ok
@@ -106,6 +106,35 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
 
       all_device_events = JSON.parse(response.body)
       assert_empty all_device_events
+    end
+
+  end
+
+  class DeviceEventsDeleteTest < DeviceEventsControllerTest
+
+    test "update is_deleted attribute to true when it set to false" do
+      device_event = DeviceEvent.create(category:1, recorded_at: Date.today)
+      delete "/api/v1/device_events/#{device_event.uuid}"
+      assert_response :ok
+      updated_device_event = JSON.parse(response.body)
+      assert_equal updated_device_event['is_deleted'], true
+    end
+
+    test "return not found when the supplied event does not exist" do
+      non_existent_event_uuid = 47382
+      delete "/api/v1/device_events/#{non_existent_event_uuid}"
+      assert_response :not_found
+    end
+
+    test "error when update is_deleted attribute is already true" do
+      device_event = DeviceEvent.create(category:5, recorded_at: Date.yesterday)
+      delete "/api/v1/device_events/#{device_event.uuid}"
+      assert_response :ok
+      delete "/api/v1/device_events/#{device_event.uuid}"
+      assert_response :unprocessable_entity
+      error_message = JSON.parse(response.body)
+      expected_error_message = { "error" => "This event has already been deleted" }
+      assert_equal expected_error_message, error_message
     end
 
   end
