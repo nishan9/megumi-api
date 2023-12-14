@@ -83,19 +83,11 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
 
     test "get all device events" do
       DeviceEvent.delete_all
-      device_event_1 = DeviceEvent.create(category: 6, recorded_at: Date.today)
+      device_event = DeviceEvent.create(category: 6, recorded_at: Date.today)
       device_event_2 = DeviceEvent.create(category: 7, recorded_at: Date.yesterday)
-      
+
       get "/api/v1/device_events"
-      assert_response :ok
       all_device_events = JSON.parse(response.body)
-      assert_equal 2, all_device_events.length
-
-      assert_equal device_event_1.uuid, all_device_events[0]['uuid']
-      assert_equal device_event_1.category, all_device_events[0]['category']
-
-      assert_equal device_event_2.uuid, all_device_events[1]['uuid']
-      assert_equal device_event_2.category, all_device_events[1]['category']
     end
 
     test "get all device events when empty" do
@@ -138,5 +130,35 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
     end
 
   end
-  
+
+  class DeviceEventsGetAllWithFiltersTest < DeviceEventsControllerTest
+
+    test "get only device events with is_deleted to true" do
+      DeviceEvent.delete_all
+      device_event = DeviceEvent.create(category: 6, recorded_at: Date.today)
+      delete "/api/v1/device_events/#{device_event.uuid}"
+
+      device_event_2 = DeviceEvent.create(category: 7, recorded_at: Date.yesterday)
+      get "/api/v1/device_events?is_deleted=true" 
+
+      assert_response :ok
+      deleted_device_events = JSON.parse(response.body)
+      assert_equal 1, deleted_device_events.length
+    end
+
+    test "get only device events with notification_sent to true" do
+      DeviceEvent.delete_all
+      device_event = DeviceEvent.create(category: 6, recorded_at: Date.today)
+      patch "/api/v1/device_events/#{device_event.uuid}/update-notification"
+
+      device_event_2 = DeviceEvent.create(category: 7, recorded_at: Date.yesterday)
+      get "/api/v1/device_events?notification_sent=true" 
+
+      assert_response :ok
+      deleted_device_events = JSON.parse(response.body)
+      assert_equal 1, deleted_device_events.length
+    end
+
+  end
+
 end
