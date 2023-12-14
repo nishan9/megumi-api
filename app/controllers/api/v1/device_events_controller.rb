@@ -22,6 +22,15 @@ class Api::V1::DeviceEventsController < ApplicationController
         end
     end
 
+    def show
+        device_event = DeviceEvent.find_by(uuid: params[:id])
+        if device_event
+            render json: device_event, status: :ok
+        else
+            render json: { error: 'Device Event not found' }, status: :not_found
+        end
+    end
+
     def device_event_params
         params.require(:device_event).permit(:category, :recorded_at)
     end

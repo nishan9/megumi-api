@@ -71,12 +71,11 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
       assert_equal false, device_event['notification_sent']
     end
 
-    test "get device event" do
+    test "get non existent event" do
       non_existent_event_uuid = 47382
       get "/api/v1/device_events/#{non_existent_event_uuid}"
       assert_response :not_found
     end
-
 
   end
   
