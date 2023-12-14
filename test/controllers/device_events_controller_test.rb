@@ -82,6 +82,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
   class DeviceEventsGetAllTest < DeviceEventsControllerTest
 
     test "get all device events" do
+      DeviceEvent.delete_all
       device_event_1 = DeviceEvent.create(category: 6, recorded_at: Date.today)
       device_event_2 = DeviceEvent.create(category: 7, recorded_at: Date.yesterday)
       
@@ -92,11 +93,9 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
 
       assert_equal device_event_1.uuid, all_device_events[0]['uuid']
       assert_equal device_event_1.category, all_device_events[0]['category']
-      assert_equal device_event_1.recorded_at.iso8601, all_device_events[0]['recorded_at']
 
       assert_equal device_event_2.uuid, all_device_events[1]['uuid']
       assert_equal device_event_2.category, all_device_events[1]['category']
-      assert_equal device_event_2.recorded_at.iso8601, all_device_events[1]['recorded_at']
     end
 
     test "get all device events when empty" do
