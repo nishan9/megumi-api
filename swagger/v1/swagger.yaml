@@ -1,0 +1,124 @@
+openapi: 3.0.3
+info:
+  title: Megumi API
+  version: 1.0
+
+paths:
+  /api/v1/device_events:
+    get:
+      summary: Get a list of device events
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                - category: 34
+                  recorded_at: "2023-12-15T12:00:00Z"
+
+    post:
+      summary: Create a new device event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category:
+                  type: string
+                recorded_at:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                category: 23
+                recorded_at: "2021-12-15T02:09:52.369Z"
+
+  /api/v1/device_events/{uuid}:
+    get:
+      summary: Get a specific device event by UUID
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          description: UUID of the device event
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                category: 34
+                recorded_at: "2023-12-15T12:00:00Z"
+
+    patch:
+      summary: Update notification status for a device event
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          description: UUID of the device event
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                category: 23
+                recorded_at: "2023-12-15T12:00:00Z"
+                notification_sent: true
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              example:
+                error: "Notification has already been sent for this event"
+
+    delete:
+      summary: Delete a device event
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          description: UUID of the device event
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                category: 34
+                recorded_at: "2023-12-15T12:00:00Z"
+                is_deleted: true
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              example:
+                error: "This event has already been deleted"
+
+components:
+  schemas:
+    DeviceEvent:
+      type: object
+      properties:
+        category:
+          type: string
+        recorded_at:
+          type: string
+          format: date-time
+        notification_sent:
+          type: boolean
+        is_deleted:
+          type: boolean

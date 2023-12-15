@@ -50,3 +50,6 @@ end
 group :test do
   gem 'simplecov', require: false
 end
+
+gem 'rswag-api'
+gem 'rswag-ui'

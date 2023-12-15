@@ -34,7 +34,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
 
     test "update notification_sent attribute to true when it set to false" do
       device_event = DeviceEvent.create(category:1, recorded_at: Date.today)
-      patch "/api/v1/device_events/#{device_event.uuid}/update-notification"
+      patch "/api/v1/device_events/#{device_event.uuid}"
       assert_response :ok
       updated_device_event = JSON.parse(response.body)
       assert_equal updated_device_event['notification_sent'], true
@@ -42,15 +42,15 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
 
     test "return not found when the supplied event does not exist" do
       non_existent_event_uuid = 47382
-      patch "/api/v1/device_events/#{non_existent_event_uuid}/update-notification"
+      patch "/api/v1/device_events/#{non_existent_event_uuid}"
       assert_response :not_found
     end
 
     test "error when update notification_sent attribute is already true" do
       device_event = DeviceEvent.create(category:3, recorded_at: Date.yesterday)
-      patch "/api/v1/device_events/#{device_event.uuid}/update-notification"
+      patch "/api/v1/device_events/#{device_event.uuid}"
       assert_response :ok
-      patch "/api/v1/device_events/#{device_event.uuid}/update-notification"
+      patch "/api/v1/device_events/#{device_event.uuid}"
       assert_response :unprocessable_entity
       error_message = JSON.parse(response.body)
       expected_error_message = { "error" => "Notification has already been sent for this event" }
@@ -149,7 +149,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
     test "get only device events with notification_sent to true" do
       DeviceEvent.delete_all
       device_event = DeviceEvent.create(category: 6, recorded_at: Date.today)
-      patch "/api/v1/device_events/#{device_event.uuid}/update-notification"
+      patch "/api/v1/device_events/#{device_event.uuid}"
 
       device_event_2 = DeviceEvent.create(category: 7, recorded_at: Date.yesterday)
       get "/api/v1/device_events?notification_sent=true" 
