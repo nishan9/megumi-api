@@ -52,6 +52,37 @@ class Api::V1::DeviceEventsController < ApplicationController
         end
     end
 
+    def export_events
+
+        begin
+            Aws.config.update({
+                region: 'eu-west-1',
+                credentials: Aws::Credentials.new('', '')
+            })
+
+            bucket_name = 'sky-protect-2'
+            s3_client = Aws::S3::Client.new(region: 'eu-west-1')
+
+            #TODO (nishan.m) needs to be paginated and tested
+            record = DeviceEvent.all
+            file_name = "device_events"
+            local_file_path = "/tmp/#{file_name}"
+
+            File.open(local_file_path, 'w') do |file| 
+                file.write(record.to_json)
+            end
+
+            File.open(local_file_path, 'rb') do |file|
+                s3_client.put_object(bucket: bucket_name, key: file_name, body: file)
+            end
+
+            render status: :ok
+
+            rescue StandardError => e
+                render json: { error: "File failed to export. #{e.message}" }, status: :internal_server_error
+        end   
+    end
+
     def device_event_params
         params.require(:device_event).permit(:category, :recorded_at)
     end
