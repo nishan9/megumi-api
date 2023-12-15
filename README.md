@@ -150,8 +150,35 @@ A GitHub Action has been created to run unit tests on every pull request against
 
 Added database timeouts for the production PostgreSQL database to resolve long-running queries. Look for `config/database.yml`.
 
+## Deployment 🧑‍🔧
+
+How to deploy the application
+
+```bash
+docker build -t megumi .
+docker volume create app-storage
+docker run --rm -it -v app-storage:/rails/storage -p 3000:3000 --env RAILS_MASTER_KEY=<see config/master.key> megumi
+```
+
+Note: Ensure cors in configured properly on the application to allow traffic and the VM needs to have the required ports opened. 
+
 ## Potential improvements 🤯
 
 - [PgHero](https://github.com/ankane/pghero): PgHero can help identify issues in PostgreSQL.
 - [Rollbar](https://github.com/rollbar/rollbar-gem): Rollbar is a tool for error reporting.
 - [Sidekiq](https://github.com/mperham/sidekiq): Sidekiq is a tool for handling background jobs in Ruby.
+
+- export_event feature needs to be tested properly which can be achieved with [AWS Client Stub](https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/ClientStubs.html)
+- The AWS credentials needs to be made into an ENV variable 
+- Move the export feature to a more reusable component
+- filter_by_params can be made into a reusable component
+- Pagination endpoint needs to return appropriate headers such as next-page, prev-page etc.
+- There can be different validation logic for metadata for different events 
+- Filtering can be expanded to support more filter attributes
+- Validation for Device UUID can be further expanded to look up in a potential device table
+- Categories can be expanded into a more configuration list as opposed to how it is hard coded now
+- There needs to be some authentication/authorisation can be accomplished via a authentication provide such as Auth0 or Devise. 
+- Sending appropriate HTTP headers depending on the use case
+- Fixtures or factorybot can be utilised in testing to reduce repetition
+- The database can be seeded with many different types of events which can be used to run tests against
+- 

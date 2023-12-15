@@ -25,9 +25,9 @@ module Api
           render json: device_event.errors, status: :unprocessable_entity
         end
       end
-
+      
+      # updates notification to true
       def update
-        # updates notification to true
         device_event = DeviceEvent.find(params[:id])
         if device_event
           if device_event.notification_sent?
