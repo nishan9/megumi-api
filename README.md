@@ -26,6 +26,8 @@ Things you may want to cover:
 * Security - https://brakemanscanner.org/
 For some initial vulnerability scanning 
 
+Security - 
+
 How to run brakeman
 
 "brakeman"
@@ -38,3 +40,16 @@ How to generate an html report
 
 brakeman -f html > ~/report.html
 open ~/report.html
+
+
+Linting - Rubocop
+
+Logging - 
+
+Rails seems to log all requests by default 
+
+CI 
+
+Created a github action which runs unit tests on every pull request against main
+
+TODO
