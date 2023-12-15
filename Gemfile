@@ -53,3 +53,5 @@ end
 
 gem 'rswag-api'
 gem 'rswag-ui'
+
+gem 'aws-sdk-s3'

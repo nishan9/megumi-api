@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     namespace "v1" do
       resources :device_events do
       end
+      post 'device_events/export_events', to: 'device_events#export_events', as: :export_events
     end
   end
 end
