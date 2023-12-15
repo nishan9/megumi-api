@@ -1,124 +1,207 @@
 openapi: 3.0.3
 info:
   title: Megumi API
-  version: 1.0
-
+  version: 1.0.0
 paths:
   /api/v1/device_events:
     get:
       summary: Get a list of device events
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+          description: Page number (default is 1)
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             application/json:
-              example:
-                - category: 34
-                  recorded_at: "2023-12-15T12:00:00Z"
-
+              example: |
+                [
+                  {
+                    "id": 1,
+                    "category": "device-online",
+                    "recorded_at": "2023-01-01T12:00:00Z",
+                    "device_uuid": "51770a82-9b47-11ee-b9d1-0242ac120002",
+                    "metadata": ""
+                  },
+                  {
+                    "id": 2,
+                    "category": "another_category",
+                    "recorded_at": "2023-01-02T12:00:00Z",
+                    "device_uuid": "another_uuid",
+                    "metadata": "another_metadata"
+                  }
+                ]
     post:
       summary: Create a new device event
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              type: object
-              properties:
-                category:
-                  type: string
-                recorded_at:
-                  type: string
-                  format: date-time
+            example: |
+              {
+                "device_event": {
+                  "category": "device-online",
+                  "recorded_at": "2023-01-01T12:00:00Z",
+                  "device_uuid": "51770a82-9b47-11ee-b9d1-0242ac120002",
+                  "metadata": ""
+                }
+              }
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             application/json:
-              example:
-                category: 23
-                recorded_at: "2021-12-15T02:09:52.369Z"
-
-  /api/v1/device_events/{uuid}:
+              example: |
+                {
+                  "id": 1,
+                  "category": "device-online",
+                  "recorded_at": "2023-01-01T12:00:00Z",
+                  "device_uuid": "51770a82-9b47-11ee-b9d1-0242ac120002",
+                  "metadata": ""
+                }
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              example: |
+                {
+                  "error": "Validation failed",
+                  "details": {
+                    "category": ["can't be blank"]
+                  }
+                }
+  /api/v1/device_events/{id}:
     get:
-      summary: Get a specific device event by UUID
+      summary: Get a single device event by ID
       parameters:
-        - name: uuid
-          in: path
+        - in: path
+          name: id
           required: true
-          description: UUID of the device event
           schema:
             type: string
+          description: ID of the device event
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             application/json:
-              example:
-                category: 34
-                recorded_at: "2023-12-15T12:00:00Z"
-
+              example: |
+                {
+                  "id": 1,
+                  "category": "device-online",
+                  "recorded_at": "2023-01-01T12:00:00Z",
+                  "device_uuid": "51770a82-9b47-11ee-b9d1-0242ac120002",
+                  "metadata": ""
+                }
+        '404':
+          description: Device event not found
+          content:
+            application/json:
+              example: |
+                {
+                  "error": "Device event not found"
+                }
     patch:
-      summary: Update notification status for a device event
+      summary: Update a device event's notification status
       parameters:
-        - name: uuid
-          in: path
+        - in: path
+          name: id
           required: true
-          description: UUID of the device event
           schema:
             type: string
+          description: ID of the device event
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             application/json:
-              example:
-                category: 23
-                recorded_at: "2023-12-15T12:00:00Z"
-                notification_sent: true
+              example: |
+                {
+                  "id": 1,
+                  "category": "device-online",
+                  "recorded_at": "2023-01-01T12:00:00Z",
+                  "device_uuid": "51770a82-9b47-11ee-b9d1-0242ac120002",
+                  "metadata": "",
+                  "notification_sent": true
+                }
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              example: |
+                {
+                  "error": "Failed to update notification status"
+                }
         '422':
-          description: Unprocessable Entity
+          description: Unprocessable entity
           content:
             application/json:
-              example:
-                error: "Notification has already been sent for this event"
-
+              example: |
+                {
+                  "error": "Notification has already been sent for this event"
+                }
     delete:
       summary: Delete a device event
       parameters:
-        - name: uuid
-          in: path
+        - in: path
+          name: id
           required: true
-          description: UUID of the device event
           schema:
             type: string
+          description: ID of the device event
       responses:
-        '200':
-          description: OK
+        '204':
+          description: Device event deleted successfully
+        '404':
+          description: Device event not found
           content:
             application/json:
-              example:
-                category: 34
-                recorded_at: "2023-12-15T12:00:00Z"
-                is_deleted: true
-        '422':
-          description: Unprocessable Entity
-          content:
-            application/json:
-              example:
-                error: "This event has already been deleted"
-
+              example: |
+                {
+                  "error": "Device event not found"
+                }
+  /api/v1/device_events/export_events:
+    post:
+      summary: Export device events to AWS S3
+      responses:
+        '204':
 components:
   schemas:
     DeviceEvent:
       type: object
       properties:
+        id:
+          type: integer
         category:
           type: string
+          enum:
+            - device-incident
+            - device-tracking
+            - device-exited-home
+            - device-home
+            - device-overheating
+            - device-charging-completed
+            - device-charging
+            - device-battery-low
+            - device-online
+            - device-offline
+            - device-heartbeat
+            - device-pairing-start
         recorded_at:
           type: string
           format: date-time
+        device_uuid:
+          type: string
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        metadata:
+          type: string
         notification_sent:
           type: boolean
-        is_deleted:
-          type: boolean
+      required:
+        - category
+        - recorded_at
+        - device_uuid
