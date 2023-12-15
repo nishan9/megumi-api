@@ -5,6 +5,22 @@ class DeviceEvent < ApplicationRecord
     attr_readonly :received_at
     validate :attributes_not_set_at_creation
     after_initialize :init
+    validates :category, inclusion: {
+    in: [
+      "device-incident",
+      "device-tracking",
+      "device-exited-home",
+      "device-home",
+      "device-overheating",
+      "device-charging-completed",
+      "device-charging",
+      "device-battery-low",
+      "device-online",
+      "device-offline",
+      "device-heartbeat",
+      "device-pairing-start"
+    ]
+  }
 
     scope :filter_by_params, -> (params) {
         filtered_events = all
