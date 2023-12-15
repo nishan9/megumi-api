@@ -29,12 +29,9 @@ class DeviceEvent < ApplicationRecord
   scope :filter_by_params, lambda { |params|
     filtered_events = all
 
-    if params[:notification_sent].present?
-      filtered_events = filtered_events.where(notification_sent: params[:notification_sent])
-    end
-
     filtered_events = filtered_events.where(is_deleted: params[:is_deleted]) if params[:is_deleted].present?
-
+    filtered_events = filtered_events.where(notification_sent: params[:notification_sent]) if params[:notification_sent].present?
+    
     filtered_events
   }
 
