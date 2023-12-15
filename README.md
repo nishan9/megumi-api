@@ -1,55 +1,84 @@
-# README
+# Megumi API 
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This README provides information on setting up, configuring, and maintaining the [Your Project Name] application.
 
-Things you may want to cover:
+## Table of Contents
 
-* Ruby version: 3.2.2
+- [Dependencies](#dependencies)
+- [How to Run](#how-to-run)
+- [How to Run the Test Suite](#how-to-run-the-test-suite)
+- [Services](#services)
+- [Security](#security)
+  - [Brakeman](#brakeman)
+    - [How to Run Brakeman](#how-to-run-brakeman)
+    - [Generating an HTML Report](#generating-an-html-report)
+  - [Rubocop](#rubocop)
+- [Continuous Integration (CI)](#continuous-integration-ci)
+- [Contributing](#contributing)
 
-* Rails version: 7.1.2
+## Dependencies
 
-* System dependencies
+- Ruby 3.2.2
+- Rails 7.1.2
 
-* Configuration
+To install necessary gems (includes PostgreSQL 1.1):
 
-* Database creation
+```bash
+bundle install
+```
 
-* Database initialization
+Then run:
 
-* How to run the test suite
+```bash
+rails db:create
+rails db:migrate
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+Run the server:
 
-* Deployment instructions
+```bash
+rails server
+```
 
-* Security - https://brakemanscanner.org/
-For some initial vulnerability scanning 
+## How to Run the Test Suite 🏃‍
 
-Security - 
+Tests are created with minitest. Run the tests:
 
-How to run brakeman
+```bash
+rails test
+```
 
-"brakeman"
+## Additional Gems  💎
 
-How to check what brakeman tests for 
+### Security Brakeman 🔑
 
-"brakeman checks"
+[Brakeman](https://brakemanscanner.org/) is a vulnerability scanner for Ruby on Rails applications.
 
-How to generate an html report 
+#### How to Run Brakeman
 
+```bash
+brakeman
+```
+
+#### Generating an HTML Report
+
+```bash
 brakeman -f html > ~/report.html
 open ~/report.html
+```
 
+### Rubocop
 
-Linting - Rubocop
+[Rubocop](https://rubocop.org/) is a Ruby static code analyzer and formatter.
 
-Logging - 
+## Continuous Integration (CI) 🧑‍🔧
 
-Rails seems to log all requests by default 
+A GitHub Action has been created to run unit tests on every pull request against the `main` branch and `main` itself.
 
-CI 
+Added database timeouts for the production PostgreSQL database to resolve long-running queries. Look for `config/database.yml`.
 
-Created a github action which runs unit tests on every pull request against main
+## Potential Improvments 🤯
 
-TODO
+- [PgHero](https://github.com/ankane/pghero): PgHero can help identify issues in PostgreSQL.
+- [Rollbar](https://github.com/rollbar/rollbar-gem): Rollbar is a tool for error reporting.
+- [Sidekiq](https://github.com/mperham/sidekiq): Sidekiq is a tool for handling background jobs in Ruby.
