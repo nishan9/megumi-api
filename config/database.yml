@@ -78,6 +78,10 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
+  connect_timeout: 2
+  checkout_timeout: 5
+  variables:
+    statement_timeout: 5000
   <<: *default
   database: megumi_api_production
   username: megumi_api
