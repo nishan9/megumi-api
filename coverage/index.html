@@ -14,7 +14,7 @@
       <img src="./assets/0.12.3/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2023-12-15T09:52:05+00:00">2023-12-15T09:52:05+00:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2023-12-15T10:31:08+00:00">2023-12-15T10:31:08+00:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -23,14 +23,14 @@
     <span class="group_name">All Files</span>
     (<span class="covered_percent">
       <span class="red">
-  77.5%
+  76.32%
 </span>
 
      </span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         3.04
+         2.49
        </span>
     </span> hits/line
     )
@@ -43,11 +43,11 @@
   </div>
 
   <div class="t-line-summary">
-    <b>80</b> relevant lines,
-    <span class="green"><b>62</b> lines covered</span> and
+    <b>76</b> relevant lines,
+    <span class="green"><b>58</b> lines covered</span> and
     <span class="red"><b>18</b> lines missed. </span>
     (<span class="red">
-  77.5%
+  76.32%
 </span>
 )
   </div>
@@ -106,11 +106,11 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#74350c22df8849c736e4fb040fefdc2e14d64fca" class="src_link" title="app/models/device_event.rb">app/models/device_event.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
-            <td class="cell--number">56</td>
-            <td class="cell--number">24</td>
-            <td class="cell--number">24</td>
+            <td class="cell--number">52</td>
+            <td class="cell--number">20</td>
+            <td class="cell--number">20</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">6.29</td>
+            <td class="cell--number">4.85</td>
             
           </tr>
         
@@ -271,7 +271,7 @@
      covered at
      <span class="covered_strength">
        <span class="green">
-         5.88
+         4.5
        </span>
     </span> hits/line
     )
@@ -284,8 +284,8 @@
   </div>
 
   <div class="t-line-summary">
-    <b>26</b> relevant lines,
-    <span class="green"><b>26</b> lines covered</span> and
+    <b>22</b> relevant lines,
+    <span class="green"><b>22</b> lines covered</span> and
     <span class="red"><b>0</b> lines missed. </span>
     (<span class="green">
   100.0%
@@ -325,11 +325,11 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#74350c22df8849c736e4fb040fefdc2e14d64fca" class="src_link" title="app/models/device_event.rb">app/models/device_event.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
-            <td class="cell--number">56</td>
-            <td class="cell--number">24</td>
-            <td class="cell--number">24</td>
+            <td class="cell--number">52</td>
+            <td class="cell--number">20</td>
+            <td class="cell--number">20</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">6.29</td>
+            <td class="cell--number">4.85</td>
             
           </tr>
         
@@ -1725,7 +1725,7 @@
 
             
 
-            <code class="ruby">        params.require(:device_event).permit(:category, :recorded_at)</code>
+            <code class="ruby">        params.require(:device_event).permit(:category, :recorded_at, :device_uuid, :metadata)</code>
           </li>
         </div>
       
@@ -1887,8 +1887,8 @@
     
 
     <div class="t-line-summary">
-      <b>24</b> relevant lines.
-      <span class="green"><b>24</b> lines covered</span> and
+      <b>20</b> relevant lines.
+      <span class="green"><b>20</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
 
@@ -1961,7 +1961,7 @@
 
             
 
-            <code class="ruby">    validate :attributes_not_set_at_creation</code>
+            <code class="ruby">    after_initialize :init</code>
           </li>
         </div>
       
@@ -1972,18 +1972,18 @@
 
             
 
-            <code class="ruby">    after_initialize :init</code>
+            <code class="ruby">    validates :device_uuid, allow_nil: true, format: {</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="8">
-            <span class="hits">1</span>
+          <li class="never" data-hits="" data-linenumber="8">
+            
             
 
             
 
-            <code class="ruby">    validates :category, inclusion: {</code>
+            <code class="ruby">        with: /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/i,</code>
           </li>
         </div>
       
@@ -1994,7 +1994,7 @@
 
             
 
-            <code class="ruby">    in: [</code>
+            <code class="ruby">        message: &quot;has an incorrect format&quot;</code>
           </li>
         </div>
       
@@ -2005,18 +2005,18 @@
 
             
 
-            <code class="ruby">      &quot;device-incident&quot;,</code>
+            <code class="ruby">    }</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="11">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="11">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">      &quot;device-tracking&quot;,</code>
+            
+
+            <code class="ruby">    validates :category, inclusion: {</code>
           </li>
         </div>
       
@@ -2027,7 +2027,7 @@
 
             
 
-            <code class="ruby">      &quot;device-exited-home&quot;,</code>
+            <code class="ruby">    in: [</code>
           </li>
         </div>
       
@@ -2038,7 +2038,7 @@
 
             
 
-            <code class="ruby">      &quot;device-home&quot;,</code>
+            <code class="ruby">      &quot;device-incident&quot;,</code>
           </li>
         </div>
       
@@ -2049,7 +2049,7 @@
 
             
 
-            <code class="ruby">      &quot;device-overheating&quot;,</code>
+            <code class="ruby">      &quot;device-tracking&quot;,</code>
           </li>
         </div>
       
@@ -2060,7 +2060,7 @@
 
             
 
-            <code class="ruby">      &quot;device-charging-completed&quot;,</code>
+            <code class="ruby">      &quot;device-exited-home&quot;,</code>
           </li>
         </div>
       
@@ -2071,7 +2071,7 @@
 
             
 
-            <code class="ruby">      &quot;device-charging&quot;,</code>
+            <code class="ruby">      &quot;device-home&quot;,</code>
           </li>
         </div>
       
@@ -2082,7 +2082,7 @@
 
             
 
-            <code class="ruby">      &quot;device-battery-low&quot;,</code>
+            <code class="ruby">      &quot;device-overheating&quot;,</code>
           </li>
         </div>
       
@@ -2093,7 +2093,7 @@
 
             
 
-            <code class="ruby">      &quot;device-online&quot;,</code>
+            <code class="ruby">      &quot;device-charging-completed&quot;,</code>
           </li>
         </div>
       
@@ -2104,7 +2104,7 @@
 
             
 
-            <code class="ruby">      &quot;device-offline&quot;,</code>
+            <code class="ruby">      &quot;device-charging&quot;,</code>
           </li>
         </div>
       
@@ -2115,7 +2115,7 @@
 
             
 
-            <code class="ruby">      &quot;device-heartbeat&quot;,</code>
+            <code class="ruby">      &quot;device-battery-low&quot;,</code>
           </li>
         </div>
       
@@ -2126,7 +2126,7 @@
 
             
 
-            <code class="ruby">      &quot;device-pairing-start&quot;</code>
+            <code class="ruby">      &quot;device-online&quot;,</code>
           </li>
         </div>
       
@@ -2137,7 +2137,7 @@
 
             
 
-            <code class="ruby">    ]</code>
+            <code class="ruby">      &quot;device-offline&quot;,</code>
           </li>
         </div>
       
@@ -2148,7 +2148,7 @@
 
             
 
-            <code class="ruby">  }</code>
+            <code class="ruby">      &quot;device-heartbeat&quot;,</code>
           </li>
         </div>
       
@@ -2159,29 +2159,29 @@
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">      &quot;device-pairing-start&quot;</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="25">
-            <span class="hits">1</span>
+          <li class="never" data-hits="" data-linenumber="25">
+            
             
 
             
 
-            <code class="ruby">    scope :filter_by_params, -&gt; (params) {</code>
+            <code class="ruby">    ]</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="4" data-linenumber="26">
-            <span class="hits">4</span>
+          <li class="never" data-hits="" data-linenumber="26">
+            
             
 
             
 
-            <code class="ruby">        filtered_events = all</code>
+            <code class="ruby">  }</code>
           </li>
         </div>
       
@@ -2197,24 +2197,24 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="4" data-linenumber="28">
-            <span class="hits">4</span>
-            
-
-            
-
-            <code class="ruby">        if params[:notification_sent].present?</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="29">
+          <li class="covered" data-hits="1" data-linenumber="28">
             <span class="hits">1</span>
             
 
             
 
-            <code class="ruby">            filtered_events = filtered_events.where(notification_sent: params[:notification_sent])</code>
+            <code class="ruby">    scope :filter_by_params, -&gt; (params) {</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="4" data-linenumber="29">
+            <span class="hits">4</span>
+            
+
+            
+
+            <code class="ruby">        filtered_events = all</code>
           </li>
         </div>
       
@@ -2225,40 +2225,40 @@
 
             
 
-            <code class="ruby">        end</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="31">
-            
-            
-
-            
-
-            <code class="ruby">    </code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="4" data-linenumber="32">
+          <li class="covered" data-hits="4" data-linenumber="31">
             <span class="hits">4</span>
             
 
             
 
-            <code class="ruby">        if params[:is_deleted].present?</code>
+            <code class="ruby">        if params[:notification_sent].present?</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="33">
+          <li class="covered" data-hits="1" data-linenumber="32">
             <span class="hits">1</span>
             
 
             
 
-            <code class="ruby">            filtered_events = filtered_events.where(is_deleted: params[:is_deleted])</code>
+            <code class="ruby">            filtered_events = filtered_events.where(notification_sent: params[:notification_sent])</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="33">
+            
+            
+
+            
+
+            <code class="ruby">        end</code>
           </li>
         </div>
       
@@ -2269,29 +2269,29 @@
 
             
 
-            <code class="ruby">        end</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="35">
-            
-            
-
-            
-
             <code class="ruby">    </code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="4" data-linenumber="36">
+          <li class="covered" data-hits="4" data-linenumber="35">
             <span class="hits">4</span>
             
 
             
 
-            <code class="ruby">        filtered_events</code>
+            <code class="ruby">        if params[:is_deleted].present?</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="36">
+            <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">            filtered_events = filtered_events.where(is_deleted: params[:is_deleted])</code>
           </li>
         </div>
       
@@ -2302,7 +2302,7 @@
 
             
 
-            <code class="ruby">    }</code>
+            <code class="ruby">        end</code>
           </li>
         </div>
       
@@ -2313,29 +2313,29 @@
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">    </code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="39">
-            <span class="hits">1</span>
+          <li class="covered" data-hits="4" data-linenumber="39">
+            <span class="hits">4</span>
             
 
             
 
-            <code class="ruby">    def set_received_at</code>
+            <code class="ruby">        filtered_events</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="10" data-linenumber="40">
-            <span class="hits">10</span>
+          <li class="never" data-hits="" data-linenumber="40">
+            
             
 
             
 
-            <code class="ruby">        self.received_at = Time.current</code>
+            <code class="ruby">    }</code>
           </li>
         </div>
       
@@ -2346,29 +2346,29 @@
 
             
 
-            <code class="ruby">    end</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="42">
-            
-            
-
-            
-
             <code class="ruby"></code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="43">
+          <li class="covered" data-hits="1" data-linenumber="42">
             <span class="hits">1</span>
             
 
             
 
-            <code class="ruby">    private </code>
+            <code class="ruby">    def set_received_at</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="10" data-linenumber="43">
+            <span class="hits">10</span>
+            
+
+            
+
+            <code class="ruby">        self.received_at = Time.current</code>
           </li>
         </div>
       
@@ -2379,73 +2379,73 @@
 
             
 
+            <code class="ruby">    end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="45">
+            
+            
+
+            
+
             <code class="ruby"></code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="45">
+          <li class="covered" data-hits="1" data-linenumber="46">
             <span class="hits">1</span>
             
 
             
 
-            <code class="ruby">    def attributes_not_set_at_creation</code>
+            <code class="ruby">    private </code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="26" data-linenumber="46">
-            <span class="hits">26</span>
+          <li class="never" data-hits="" data-linenumber="47">
+            
             
 
             
 
-            <code class="ruby">        if new_record?</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="20" data-linenumber="47">
-            <span class="hits">20</span>
+          <li class="covered" data-hits="1" data-linenumber="48">
+            <span class="hits">1</span>
             
 
             
 
-            <code class="ruby">            if notification_sent.present? || is_deleted.present? || received_at.present?</code>
+            <code class="ruby">    def init</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="3" data-linenumber="48">
-            <span class="hits">3</span>
+          <li class="covered" data-hits="29" data-linenumber="49">
+            <span class="hits">29</span>
             
 
             
 
-            <code class="ruby">                errors.add(:base, &quot;notification_sent, is_deleted or received_at cannot be set at creation&quot;)</code>
+            <code class="ruby">        self.is_deleted = false if self.is_deleted.nil?</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="49">
-            
-            
-
-            
-
-            <code class="ruby">            end</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="50">
-            
+          <li class="covered" data-hits="29" data-linenumber="50">
+            <span class="hits">29</span>
             
 
             
 
-            <code class="ruby">        end</code>
+            <code class="ruby">        self.notification_sent = false if self.notification_sent.nil?</code>
           </li>
         </div>
       
@@ -2461,51 +2461,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="52">
-            <span class="hits">1</span>
-            
-
-            
-
-            <code class="ruby">    def init</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="31" data-linenumber="53">
-            <span class="hits">31</span>
-            
-
-            
-
-            <code class="ruby">        self.is_deleted = false if self.is_deleted.nil?</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="31" data-linenumber="54">
-            <span class="hits">31</span>
-            
-
-            
-
-            <code class="ruby">        self.notification_sent = false if self.notification_sent.nil?</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="55">
-            
-            
-
-            
-
-            <code class="ruby">    end</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="56">
+          <li class="never" data-hits="" data-linenumber="52">
             
             
 

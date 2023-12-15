@@ -99,6 +99,6 @@ class Api::V1::DeviceEventsController < ApplicationController
     end
 
     def device_event_params
-        params.require(:device_event).permit(:category, :recorded_at)
+        params.require(:device_event).permit(:category, :recorded_at, :device_uuid, :metadata)
     end
 end
