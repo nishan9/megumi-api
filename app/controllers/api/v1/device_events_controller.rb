@@ -12,14 +12,14 @@ class Api::V1::DeviceEventsController < ApplicationController
 
     def create 
         device_event = DeviceEvent.new(device_event_params)
-        if device_event
+        if device_event.valid?
             if device_event.save
                 render json: device_event, status: :ok
             else 
-                render json: device_event.errors, status: :unprocessable_entity
+                render json: device_event.errors, status: :bad_request
             end 
         else
-            render json: { error: 'Device Event not found' }, status: :not_found
+            render json: device_event.errors, status: :unprocessable_entity
         end
     end
 
@@ -46,7 +46,7 @@ class Api::V1::DeviceEventsController < ApplicationController
         if device_event
             render json: device_event, status: :ok
         else
-            render json: { error: 'Device Event not found' }, status: :not_found
+            render json: { error: 'Device event not found' }, status: :not_found
         end
     end
 
@@ -63,7 +63,7 @@ class Api::V1::DeviceEventsController < ApplicationController
                 end
             end
         else 
-            render json: { error: 'Device Event not found' }, status: :not_found  
+            render json: { error: 'Device event not found' }, status: :not_found  
         end
     end
 

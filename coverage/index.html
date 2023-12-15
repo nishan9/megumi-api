@@ -14,7 +14,7 @@
       <img src="./assets/0.12.3/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2023-12-15T10:31:08+00:00">2023-12-15T10:31:08+00:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2023-12-15T10:59:00+00:00">2023-12-15T10:59:00+00:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -30,7 +30,7 @@
      covered at
      <span class="covered_strength">
        <span class="green">
-         2.49
+         2.46
        </span>
     </span> hits/line
     )
@@ -77,7 +77,7 @@
             <td class="cell--number">53</td>
             <td class="cell--number">35</td>
             <td class="cell--number">18</td>
-            <td class="cell--number">1.68</td>
+            <td class="cell--number">1.64</td>
             
           </tr>
         
@@ -133,7 +133,7 @@
      covered at
      <span class="covered_strength">
        <span class="green">
-         1.67
+         1.63
        </span>
     </span> hits/line
     )
@@ -180,7 +180,7 @@
             <td class="cell--number">53</td>
             <td class="cell--number">35</td>
             <td class="cell--number">18</td>
-            <td class="cell--number">1.68</td>
+            <td class="cell--number">1.64</td>
             
           </tr>
         
@@ -768,13 +768,13 @@
 
             
 
-            <code class="ruby">        if device_event</code>
+            <code class="ruby">        if device_event.valid?</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="3" data-linenumber="16">
-            <span class="hits">3</span>
+          <li class="covered" data-hits="1" data-linenumber="16">
+            <span class="hits">1</span>
             
 
             
@@ -806,13 +806,13 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="2" data-linenumber="19">
-            <span class="hits">2</span>
+          <li class="missed" data-hits="0" data-linenumber="19">
+            
             
 
             
 
-            <code class="ruby">                render json: device_event.errors, status: :unprocessable_entity</code>
+            <code class="ruby">                render json: device_event.errors, status: :bad_request</code>
           </li>
         </div>
       
@@ -839,13 +839,13 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="22">
-            
-            
-
+          <li class="covered" data-hits="2" data-linenumber="22">
+            <span class="hits">2</span>
             
 
-            <code class="ruby">            render json: { error: &#39;Device Event not found&#39; }, status: :not_found</code>
+            
+
+            <code class="ruby">            render json: device_event.errors, status: :unprocessable_entity</code>
           </li>
         </div>
       
@@ -1142,7 +1142,7 @@
 
             
 
-            <code class="ruby">            render json: { error: &#39;Device Event not found&#39; }, status: :not_found</code>
+            <code class="ruby">            render json: { error: &#39;Device event not found&#39; }, status: :not_found</code>
           </li>
         </div>
       
@@ -1329,7 +1329,7 @@
 
             
 
-            <code class="ruby">            render json: { error: &#39;Device Event not found&#39; }, status: :not_found  </code>
+            <code class="ruby">            render json: { error: &#39;Device event not found&#39; }, status: :not_found  </code>
           </li>
         </div>
       
