@@ -1,7 +1,12 @@
 class Api::V1::DeviceEventsController < ApplicationController
 
     def index
-        @device_events = DeviceEvent.filter_by_params(params)
+        #if page is not a positive integer default to 1.
+        page = params[:page].to_i.positive? ? params[:page].to_i : 1
+        #max default and offset to skip accordingly
+        per_page = 2
+        offset = (page - 1) * per_page
+        @device_events = DeviceEvent.filter_by_params(params).limit(per_page).offset(offset)
         render json: @device_events, status: :ok
     end
 

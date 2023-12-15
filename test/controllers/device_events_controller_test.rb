@@ -12,7 +12,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
       assert_equal 2, device_event['category']
     end
   
-    test "create invalid device event with category parameter missing" do
+    test "create invalid device event with missing category parameter" do
       post '/api/v1/device_events', params: { device_event: { recorded_at: Date.current } }
       assert_response :unprocessable_entity
       error_message = JSON.parse(response.body)
@@ -20,7 +20,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
       assert_equal expected_error_message, error_message
     end
   
-    test "create invalid device event with recorded_at parameter missing" do
+    test "create invalid device event with missing recorded_at parameter" do
       post '/api/v1/device_events', params: { device_event: { category: 1 } }
       assert_response :unprocessable_entity
       error_message = JSON.parse(response.body)
@@ -32,7 +32,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
 
   class DeviceEventsUpdateNotificationTest < DeviceEventsControllerTest
 
-    test "update notification_sent attribute to true when it set to false" do
+    test "update notification_sent attribute to true when set to false" do
       device_event = DeviceEvent.create(category:1, recorded_at: Date.today)
       patch "/api/v1/device_events/#{device_event.uuid}"
       assert_response :ok
@@ -40,7 +40,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
       assert_equal updated_device_event['notification_sent'], true
     end
 
-    test "return not found when the supplied event does not exist" do
+    test "return not found when the event does not exist" do
       non_existent_event_uuid = 47382
       patch "/api/v1/device_events/#{non_existent_event_uuid}"
       assert_response :not_found
@@ -104,7 +104,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
 
   class DeviceEventsDeleteTest < DeviceEventsControllerTest
 
-    test "update is_deleted attribute to true when it set to false" do
+    test "update is_deleted attribute to true when set to false" do
       device_event = DeviceEvent.create(category:1, recorded_at: Date.today)
       delete "/api/v1/device_events/#{device_event.uuid}"
       assert_response :ok
@@ -112,7 +112,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
       assert_equal updated_device_event['is_deleted'], true
     end
 
-    test "return not found when the supplied event does not exist" do
+    test "return not found when the event does not exist" do
       non_existent_event_uuid = 47382
       delete "/api/v1/device_events/#{non_existent_event_uuid}"
       assert_response :not_found
@@ -133,7 +133,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
 
   class DeviceEventsGetAllWithFiltersTest < DeviceEventsControllerTest
 
-    test "get only device events with is_deleted to true" do
+    test "get only device events with is_deleted set to true" do
       DeviceEvent.delete_all
       device_event = DeviceEvent.create(category: 6, recorded_at: Date.today)
       delete "/api/v1/device_events/#{device_event.uuid}"
@@ -146,7 +146,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
       assert_equal 1, deleted_device_events.length
     end
 
-    test "get only device events with notification_sent to true" do
+    test "get only device events with notification_sent set to true" do
       DeviceEvent.delete_all
       device_event = DeviceEvent.create(category: 6, recorded_at: Date.today)
       patch "/api/v1/device_events/#{device_event.uuid}"
