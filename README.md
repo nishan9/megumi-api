@@ -23,4 +23,18 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
+* Security - https://brakemanscanner.org/
+For some initial vulnerability scanning 
+
+How to run brakeman
+
+"brakeman"
+
+How to check what brakeman tests for 
+
+"brakeman checks"
+
+How to generate an html report 
+
+brakeman -f html > ~/report.html
+open ~/report.html

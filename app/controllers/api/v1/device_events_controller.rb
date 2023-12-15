@@ -14,7 +14,8 @@ class Api::V1::DeviceEventsController < ApplicationController
         end 
     end
 
-    def update_notification
+    def update
+        #updates notification to true
         @device_event = DeviceEvent.find(params[:id])
     
         if @device_event.notification_sent?
