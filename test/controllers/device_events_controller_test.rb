@@ -107,9 +107,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
     test "update is_deleted attribute to true when set to false" do
       device_event = DeviceEvent.create(category:1, recorded_at: Date.today)
       delete "/api/v1/device_events/#{device_event.uuid}"
-      assert_response :ok
-      updated_device_event = JSON.parse(response.body)
-      assert_equal updated_device_event['is_deleted'], true
+      assert_response :no_content
     end
 
     test "return not found when the event does not exist" do
@@ -121,7 +119,7 @@ class DeviceEventsControllerTest < ActionDispatch::IntegrationTest
     test "error when update is_deleted attribute is already true" do
       device_event = DeviceEvent.create(category:5, recorded_at: Date.yesterday)
       delete "/api/v1/device_events/#{device_event.uuid}"
-      assert_response :ok
+      assert_response :no_content
       delete "/api/v1/device_events/#{device_event.uuid}"
       assert_response :unprocessable_entity
       error_message = JSON.parse(response.body)

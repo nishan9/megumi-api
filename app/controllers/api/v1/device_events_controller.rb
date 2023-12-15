@@ -12,25 +12,32 @@ class Api::V1::DeviceEventsController < ApplicationController
 
     def create 
         device_event = DeviceEvent.new(device_event_params)
-        if device_event.save
-            render json: device_event, status: :ok
-        else 
-            render json: device_event.errors, status: :unprocessable_entity
-        end 
+        if device_event
+            if device_event.save
+                render json: device_event, status: :ok
+            else 
+                render json: device_event.errors, status: :unprocessable_entity
+            end 
+        else
+            render json: { error: 'Device Event not found' }, status: :not_found
+        end
     end
 
     def update
         #updates notification to true
-        @device_event = DeviceEvent.find(params[:id])
-    
-        if @device_event.notification_sent?
-            render json: { error: "Notification has already been sent for this event" }, status: :unprocessable_entity
-        else
-            if @device_event.update(notification_sent: true)
-                render json: @device_event, status: :ok
+        device_event = DeviceEvent.find(params[:id])
+        if device_event
+            if device_event.notification_sent?
+                render json: { error: "Notification has already been sent for this event" }, status: :unprocessable_entity
             else
-                render json: { error: "Failed to update notification status" }, status: :bad_request
+                if device_event.update(notification_sent: true)
+                    render json: device_event, status: :ok
+                else
+                    render json: { error: "Failed to update notification status" }, status: :bad_request
+                end
             end
+        else
+            render json: device_event.errors, status: :not_found
         end
     end
 
@@ -44,16 +51,19 @@ class Api::V1::DeviceEventsController < ApplicationController
     end
 
     def destroy
-        @device_event = DeviceEvent.find(params[:id])
-    
-        if @device_event.is_deleted?
-            render json: { error: "This event has already been deleted" }, status: :unprocessable_entity
-        else
-            if @device_event.update(is_deleted: true)
-                render json: @device_event, status: :ok
+        device_event = DeviceEvent.find(params[:id])
+        if device_event
+            if device_event.is_deleted?
+                render json: { error: "This event has already been deleted" }, status: :unprocessable_entity
             else
-                render json: { error: "Failed to delete event" }, status: :bad_request
+                if device_event.update(is_deleted: true)
+                    render status: :no_content
+                else
+                    render json: { error: "Failed to delete event" }, status: :bad_request
+                end
             end
+        else 
+            render json: { error: 'Device Event not found' }, status: :not_found  
         end
     end
 
@@ -81,7 +91,7 @@ class Api::V1::DeviceEventsController < ApplicationController
                 s3_client.put_object(bucket: bucket_name, key: file_name, body: file)
             end
 
-            render status: :ok
+            render status: :no_content
 
             rescue StandardError => e
                 render json: { error: "File failed to export. #{e.message}" }, status: :internal_server_error
