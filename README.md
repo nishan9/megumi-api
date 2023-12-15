@@ -1,22 +1,8 @@
 # Megumi API 
 
-This README provides information on setting up, configuring and running the application.
+This README provides information on setting up, configuring and running Megumi API.
 
-## Table of Contents
-
-- [Dependencies](#dependencies)
-- [How to Run](#how-to-run)
-- [How to Run the Test Suite](#how-to-run-the-test-suite)
-- [Services](#services)
-- [Security](#security)
-  - [Brakeman](#brakeman)
-    - [How to Run Brakeman](#how-to-run-brakeman)
-    - [Generating an HTML Report](#generating-an-html-report)
-  - [Rubocop](#rubocop)
-- [Continuous Integration (CI)](#continuous-integration-ci)
-- [Contributing](#contributing)
-
-## Dependencies
+## How to run
 
 - Ruby 3.2.2
 - Rails 7.1.2
@@ -40,17 +26,13 @@ Run the server:
 rails server
 ```
 
-## How to Run the Test Suite 🏃‍
+## How to run test suite 🏃‍
 
 Tests are created with minitest. Run the tests:
 
 ```bash
 rails test
 ```
-
-## Using the API 
-
-Certainly! I've added the "localhost" part to all the `curl` requests. Please note that I assumed the default port is 3000, so adjust it if your local server is running on a different port.
 
 ## Using the API
 
@@ -60,7 +42,14 @@ Certainly! I've added the "localhost" part to all the `curl` requests. Please no
 - **Description**: Create an event with a status code of 200.
 
 ```bash
-curl -X POST http://localhost:3000/api/v1/device_events
+curl --request POST \
+  --url http://localhost:3000/api/v1/device_events \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "device_uuid": "755d3a5e-9b31-11ee-b9d1-0242ac120002", 
+    "recorded_at": "2023-12-11 22:15:43", 
+    "category": "device-online"
+  }'
 ```
 
 ### Get Event by UUID
@@ -144,7 +133,7 @@ curl http://localhost:3000/api/v1/device_events
 brakeman
 ```
 
-#### Generating an HTML Report
+#### Generate a report
 
 ```bash
 brakeman -f html > ~/report.html
@@ -155,13 +144,13 @@ open ~/report.html
 
 [Rubocop](https://rubocop.org/) is a Ruby static code analyzer and formatter.
 
-## Continuous Integration (CI) 🧑‍🔧
+## Continuous integration 🧑‍🔧
 
 A GitHub Action has been created to run unit tests on every pull request against the `main` branch and `main` itself.
 
 Added database timeouts for the production PostgreSQL database to resolve long-running queries. Look for `config/database.yml`.
 
-## Potential Improvments 🤯
+## Potential improvements 🤯
 
 - [PgHero](https://github.com/ankane/pghero): PgHero can help identify issues in PostgreSQL.
 - [Rollbar](https://github.com/rollbar/rollbar-gem): Rollbar is a tool for error reporting.
